@@ -1,0 +1,58 @@
+#btn-right {
+  position: absolute;
+  width: 26px;
+  height: 22px;
+
+  text-align: center;
+  text-decoration: none;
+  z-index: 5;
+  color: #fff;
+
+  span {
+    display: block;
+    position: absolute;
+
+    opacity: 1;
+    background: #fff;
+
+    transition: 0.5s;
+  }
+}
+#btn-right {
+  top: 16px;
+  right: 5px;
+  margin-right: 15px;
+}
+#btn-right:hover {
+  cursor: pointer;
+}
+#btn-right span:nth-child(n + 1):nth-child(-n + 4) {
+  width: 100%;
+  height: 3px;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+}
+#btn-right span:nth-child(1) {
+  top: 0px;
+}
+#btn-right span:nth-child(n + 2):nth-child(-n + 3) {
+  top: 8px;
+}
+#btn-right span:nth-child(4) {
+  top: 16px;
+}
+#btn-right.open span {
+  background: $settings-color;
+}
+#btn-right.open span:nth-child(1),
+#btn-right.open span:nth-child(4) {
+  top: 8px;
+  width: 0;
+}
+#btn-right.open span:nth-child(2) {
+  transform: rotate(45deg);
+}
+#btn-right.open span:nth-child(3) {
+  transform: rotate(-45deg);
+}

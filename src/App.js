@@ -1,25 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import './styles/main.scss';
+import { RemindHeading } from "./components/RemindHeading";
+import { Settings } from "./components/Settings";
+import { SettingButton } from './components/SettingButton';
+import { Central } from './components/Central';
+import {AppContext} from './context/app-provider'
 
-function App() {
+const App = () => {
+  const { isOpenSetting, currentTheme } =
+    React.useContext(AppContext);
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className={isOpenSetting ? `wrapper ${currentTheme}` : "wrapper"}>
+        <div className="align">
+          <RemindHeading />
+          <div className="app">
+            <div id="main" className={`${currentTheme} poor-Mozilla`}>
+              {/* <!-- Settings Button --> */}
+              <SettingButton/>
+              {/* <!-- Info Message--> */}
+              <div id="info-msg">
+                <div className="msg-box">
+                  <h1></h1>
+                  <p></p>
+                </div>
+              </div>
+              <Settings />
+              <Central/>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
-}
+};
 
 export default App;

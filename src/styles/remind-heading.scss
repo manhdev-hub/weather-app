@@ -1,0 +1,22 @@
+#forget {
+    text-shadow: 0 0 1px rgba(0, 0, 0, 0.12);
+    font-size: 16px;
+    color: #757575;
+    margin: 10px auto 25px auto;
+    font-family: sans-serif;
+    width: 350px;
+    text-align: center;
+    a {
+      text-decoration: none;
+      color: #5a5a5a;
+      transition: all ease-in-out 0.35s;
+    }
+    a:hover {
+      color: lighten(#5a5a5a, 20%);
+    }
+    &.hide {
+      transition: all ease-in-out 0.35s;
+      opacity: 0;
+    }
+  }
+  

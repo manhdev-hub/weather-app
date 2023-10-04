@@ -1,0 +1,381 @@
+#settings {
+    position: absolute;
+    width: 394px;
+    height: 100%;
+    top: 0;
+    right: 0;
+  
+    background: $settings;
+    z-index: 3;
+    text-shadow: 0 0 1px rgba(0, 0, 0, 0.01);
+    border-radius: 20px;
+  
+    -webkit-transform: translate3d(0, 0, 0);
+  
+    transition: 0.6s;
+  
+    //hidden
+    transform: translateX(394px);
+    //show
+    &.show {
+      transform: translateX(0px);
+      #settings-info {
+        color: $settings-color;
+        background: $settings-info;
+      }
+    }
+  
+    #settings-info {
+      height: 52px;
+      line-height: 52px;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.05);
+      background: $settings-info;
+      border-top-left-radius: 20px;
+  
+      text-align: left;
+      text-indent: 10px;
+      font-size: 24px;
+      color: $settings;
+      letter-spacing: -1px;
+  
+      transition: 0.65s ease-out;
+    }
+    ul {
+      width: 90%;
+      height: auto;
+      margin: 10px auto 0 auto;
+  
+      li {
+        width: 100%;
+        height: auto;
+        margin: 10px auto;
+  
+        list-style: none;
+  
+        // slide animation on opening
+        transition: 0.4s;
+        transform: translateX(75px);
+  
+        .text {
+          width: 100%;
+          min-height: 40px;
+          line-height: 40px;
+  
+          font-size: 14px;
+          font-weight: bold;
+          color: $settings-color;
+          text-indent: 12px;
+  
+          background: $settings-content;
+          border-radius: 20px;
+          box-shadow: 0 0 1px rgba(0, 0, 0, 0.08);
+  
+          .row {
+            width: 100%;
+            // Theme colors
+            span {
+              display: inline-block;
+              width: 20%;
+              height: 50px;
+              margin-left: 4px;
+              margin-right: 5px;
+  
+              cursor: pointer;
+              border-radius: 10px;
+  
+              transition: 0.2s;
+  
+              &.green {
+                background: $green;
+              }
+              &.blue {
+                background: $blue;
+              }
+              &.turqoise {
+                background: $turqoise;
+              }
+              &.purple {
+                background: $purple;
+              }
+              &.green,
+              &.blue,
+              &.turqoise,
+              &.purple {
+                &.current {
+                  transform: scale(1);
+                }
+  
+                &.current::before {
+                  content: "\f00c";
+  
+                  position: absolute;
+                  text-align: center;
+  
+                  color: #fff;
+                  text-shadow: none;
+  
+                  font-size: 25px;
+                  font-family: "FontAwesome";
+  
+                  top: 5px;
+                  left: 12px;
+                }
+              }
+            }
+            span:hover {
+              transform: scale(0.9);
+            }
+          }
+        }
+        .sub-info {
+          width: 90%;
+          height: 20px;
+          line-height: 20px;
+          margin: 2px auto -8px auto;
+  
+          color: darken($settings, 50%);
+          font-size: 12px;
+  
+          // slide animation on opening
+          transition: 0.4s;
+        }
+  
+        &.slideAnimation {
+          transform: translateX(0px);
+        }
+        //end  slide animation on opening
+  
+        .switch {
+          position: absolute;
+          display: inline-block;
+          width: 52px;
+          height: 28px;
+          right: 7px;
+          top: 6px;
+  
+          text-shadow: none;
+        }
+        .switch input {
+          display: none;
+        }
+  
+        .slider {
+          position: absolute;
+          cursor: pointer;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+  
+          background: #ececec;
+  
+          -webkit-transition: background 0.25s;
+          transition: background 0.25s;
+  
+          border-radius: 34px;
+          box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.15);
+  
+          span {
+            transform: translate(-6px, -6px);
+          }
+  
+          .left,
+          .right {
+            position: absolute;
+            width: 26px;
+            height: 28px;
+            top: 0px;
+  
+            font-size: 18px;
+            z-index: 1;
+            text-align: center;
+            color: darken($settings, 50%);
+  
+            transition: 0s;
+          }
+          .left {
+            left: 0px;
+  
+            i {
+              position: relative;
+              top: 4px;
+              left: 1px;
+  
+              font-size: 17px;
+              &.c {
+                position: relative;
+                top: 5px;
+                left: 0px;
+  
+                font-size: 18px;
+                font-style: normal;
+              }
+            }
+          }
+          .right {
+            right: 0px;
+  
+            i {
+              position: relative;
+              top: 4px;
+              right: 1px;
+  
+              font-size: 17px;
+  
+              &.f {
+                position: relative;
+                top: 5px;
+                right: 3px;
+  
+                font-size: 18px;
+                font-style: normal;
+              }
+            }
+          }
+        }
+        .slider:before {
+          position: absolute;
+          content: "";
+          height: 24px;
+          width: 24px;
+          left: 2px;
+          bottom: 2px;
+  
+          background: #fff;
+  
+          transition: 0.2s ease-out;
+  
+          border-radius: 50%;
+          box-shadow: 0 4px 3px rgba(0, 0, 0, 0.25);
+  
+          z-index: 2;
+        }
+        input:checked + .slider:before {
+          transition: 0.2s ease-out;
+          transform: translateX(24px);
+        }
+        input:checked + .slider {
+          p {
+            color: #fff;
+          }
+        }
+        input:not(:checked) + .slider {
+          background: #ececec;
+        }
+      }
+    }
+    .search-container {
+      position: relative;
+      width: 90%;
+      height: 50px;
+      margin: 30px auto 0 auto;
+  
+      // slide animation on opening
+      transition: 0.4s;
+      transform: translateX(75px);
+  
+      &.slideAnimation {
+        transform: translateX(0px);
+      }
+      //end  slide animation on opening
+  
+      #search {
+        position: relative;
+        width: 60%;
+        height: 35px;
+        margin: 0 auto;
+  
+        float: left;
+        box-shadow: 0 0 1px rgba(0, 0, 0, 0.05);
+        border: none;
+        border-radius: 15px;
+        background: $settings-content;
+        color: $settings-color;
+        font-weight: bold;
+        text-indent: 30px;
+      }
+      #search:focus {
+        outline: none;
+      }
+      #search::-webkit-input-placeholder {
+        color: $settings-color;
+        opacity: 1;
+        -webkit-transition: 0.4s;
+        padding-left: 5px;
+      }
+      #search:focus::-webkit-input-placeholder {
+        text-indent: 100%;
+        opacity: 0;
+        transition: 0.4s;
+      }
+  
+      #search::-moz-placeholder {
+        color: $settings-color;
+        opacity: 1;
+        -moz-transition: 0.4s;
+      }
+      #search:focus::-moz-placeholder {
+        text-indent: 100%;
+        opacity: 0;
+        -moz-transition: 0.4s;
+      }
+  
+      #search:-ms-input-placeholder {
+        color: $settings-color;
+        opacity: 1;
+      }
+      #search:focus:-ms-input-placeholder {
+        text-indent: 100%;
+        opacity: 0;
+        transition: 0.4s;
+      }
+  
+      i {
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        font-size: 17px;
+        left: 10px;
+        top: 8px;
+        color: $settings-color;
+      }
+    }
+    #update-button,
+    #save-button {
+      position: relative;
+      width: 35%;
+      height: 35px;
+      float: right;
+  
+      border: none;
+      border-radius: 15px;
+  
+      font-size: 17px;
+      font-weight: bold;
+      font-family: sans-serif;
+      color: #fff;
+      text-shadow: 0 0 1px rgba(0, 0, 0, 0.25);
+  
+      outline: none;
+      cursor: pointer;
+    }
+    #save-button {
+      position: absolute;
+      float: none;
+      margin: 0 auto;
+      bottom: 25px;
+      right: 0;
+      left: 0;
+    }
+    #update-button:hover,
+    #save-button:hover {
+      opacity: 0.9;
+    }
+    #update-button:active,
+    #save-button:active {
+      opacity: 1;
+      box-shadow: inset 0 1px 7px rgba(0, 0, 0, 0.25);
+      line-height: 37px;
+    }
+  }
+  

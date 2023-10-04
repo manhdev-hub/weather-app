@@ -1,0 +1,316 @@
+#central {
+    position: absolute;
+    width: 394px;
+    height: 100%;
+    top: 0;
+    right: 0;
+
+    border-radius: 20px;
+    text-shadow: 0 0 2px rgba(0, 0, 0, 0.25);
+    -webkit-transition: 0.6s;
+    transition: 0.6s;
+
+    #top-menu-info {
+      position: absolute;
+      width: 100%;
+      height: $top-menu-height;
+      top: 0;
+      margin-top: 1px;
+
+      #location {
+        font-size: 27px;
+        text-align: center;
+
+        line-height: 50px;
+        color: #fff;
+        letter-spacing: -1px;
+
+        i {
+          font-size: 22px;
+          transform: translateY(-2px);
+        }
+      }
+      #date {
+        position: relative;
+        top: -8px;
+        left: 3px;
+
+        font-size: 13px;
+
+        text-align: center;
+        text-shadow: none;
+        color: #fff;
+      }
+    }
+
+    #temp-div {
+      position: absolute;
+      width: 100%;
+      height: auto;
+      top: 50%;
+      transform: translateY(-50%);
+      -webkit-transform: translateY(-50%);
+
+      -webkit-perspective: 1000;
+      -webkit-transition: 0.75s ease-in-out;
+      transition: 0.75s ease-in-out;
+
+      #icon-temp {
+        margin: 0 auto;
+
+        width: 100%;
+
+        text-align: Center;
+        font-size: 45px;
+        color: #fff;
+        i {
+          position: relative;
+          top: 8px;
+        }
+        p {
+          display: inline-block;
+          font-size: 28px;
+          max-width: 210px;
+          line-height: 60px;
+        }
+      }
+      #current-temp-big {
+        display: inline-block;
+
+        width: 100%;
+
+        text-align: center;
+        color: #fff;
+        #ctb {
+          font-size: 100px;
+          font-weight: bold;
+          margin-right: 4px;
+        }
+        #ctbicon {
+          position: relative;
+          top: -40px;
+          left: -5px;
+
+          font-weight: 100;
+          font-size: 40px;
+          vertical-align: unset;
+        }
+      }
+    }
+    #temp-div.weather-menu-show {
+      transform: translate(-80px, -320px) scale(0.75);
+    }
+    #weather-menu {
+      position: absolute;
+      width: 394px;
+      height: auto;
+      bottom: 0;
+      right: 0;
+
+      color: #fff;
+
+      transition: all 0.75s ease-in-out;
+      transform: translateY(100%);
+
+      -webkit-backface-visibility: hidden;
+
+      &.show {
+        transform: translateY(0%);
+        #weather-menu-btn {
+          transform: rotate(180deg);
+        }
+        ul {
+          opacity: 1;
+        }
+      }
+      &.settings {
+        background: #444;
+        color: #444;
+      }
+      p {
+        width: 100%;
+        height: 40px;
+        text-align: center;
+        font-size: 26px;
+        line-height: 40px;
+        font-weight: 100;
+      }
+
+      ul {
+        width: 100%;
+        height: auto;
+        opacity: 0;
+        list-style: none;
+        text-align: center; // this will center left/right all elements inside ul (col-1..)
+        -webkit-backface-visibility: hidden;
+
+        -webkit-transition: opacity 0.75s;
+        transition: opacity 0.75s;
+
+        li {
+          overflow: hidden;
+          position: relative;
+          width: 100%;
+          min-height: 122px;
+          margin: 0px auto;
+          color: #fff;
+          -webkit-backface-visibility: hidden;
+          box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.05),
+            inset 0 1px 0 rgba(255, 255, 255, 0.1);
+          background: rgba(255, 255, 255, 0.15);
+
+          &.aswshow {
+            display: block;
+          }
+          &.aswhidden {
+            display: none;
+          }
+
+          .day_left {
+            left: 0px;
+          }
+          .day_right {
+            right: 0px;
+          }
+          .day_left,
+          .day_right {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            top: 45px;
+            transition: 0.3s;
+
+            z-index: 100;
+            i {
+              position: relative;
+              top: 7px;
+              font-size: 30px;
+            }
+          }
+          .day_left:hover,
+          .day_right:hover {
+            cursor: pointer;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 1);
+          }
+
+          .col-1,
+          .col-2,
+          .col-3 {
+            display: inline-block;
+            width: 116px;
+            height: 72px;
+            margin: 0 auto;
+          }
+          .li_title {
+            padding: 12px 0;
+            font-size: 15px;
+            width: 100%;
+            height: 8px;
+            line-height: 8px;
+            margin-bottom: 5px;
+            font-weight: 400;
+          }
+          #sunrise,
+          #sunset,
+          #totallight,
+          #humidity,
+          #pressure,
+          #visibility,
+          #chill,
+          #direction,
+          #speed,
+          .day10item {
+            i {
+              font-size: 26px;
+            }
+            span {
+              display: list-item;
+              margin-top: 4px;
+              font-size: 14px;
+
+              i {
+                position: relative;
+                top: 3px;
+                font-size: 14px;
+                font-style: normal;
+              }
+              strong {
+                position: relative;
+                top: 3px;
+                font-size: 20px;
+                font-weight: 100;
+              }
+            }
+          }
+          #hd,
+          #pd,
+          #vd,
+          #srd,
+          #td,
+          #ssd,
+          #cd,
+          #dd,
+          #sd {
+            margin-top: 0px;
+          }
+          .li_row {
+            overflow: hidden;
+            width: 1110px;
+            height: 70px;
+            margin-top: 5px;
+
+            transition: 0.25s;
+
+            z-index: 80;
+          }
+          #dotmenu {
+            width: 100%;
+            height: 27px;
+            margin: 10px auto 0 auto;
+            z-index: 1000;
+            span {
+              display: inline-block;
+              width: 10px;
+              height: 10px;
+              background: #fff;
+              border-radius: 20px;
+              margin-left: 5px;
+
+              transition: 0.2s;
+              &.currentday {
+                transform: scale(1.4);
+              }
+            }
+            span:hover {
+              cursor: pointer;
+            }
+          }
+        }
+        li:last-child {
+          border-bottom-left-radius: 18px;
+          border-bottom-right-radius: 18px;
+        }
+      }
+
+      #weather-menu-btn {
+        position: absolute;
+        top: -40px;
+        left: 0;
+        right: 0;
+        margin-left: auto;
+        margin-right: auto;
+        width: 40px;
+        height: 40px;
+
+        font-size: 30px;
+        color: #fff;
+        text-align: center;
+
+        transition: 0.25s;
+      }
+      #weather-menu-btn:hover {
+        text-shadow: 0 0 10px rgba(255, 255, 255, 1);
+        cursor: pointer;
+      }
+    }
+  }
