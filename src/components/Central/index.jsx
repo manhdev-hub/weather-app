@@ -1,10 +1,17 @@
 import React from "react";
-import { centralMockData, forecast9DaysMock } from "../../mock/central-data";
+import {
+  forecast9DaysMock,
+  getAtmosphericConditionsData,
+  getWindConditionsData,
+  getSunriseAndSunsetData,
+} from "../../mock/central-data";
 import { CentralItem } from "./central-item";
 import { AppContext } from "../../context/app-provider";
+import { convertTemperature, formatDate } from "../../utils";
+import { WEATHER_ID } from "../../constants";
 
-export const Central = () => {
-  const { isOpenCentralInfo, setIsOpenCentralInfo } =
+export const Central = React.memo(() => {
+  const { isOpenCentralInfo, setIsOpenCentralInfo, currentWeather, settings } =
     React.useContext(AppContext);
   const handlerToggleCentralInfo = () => {
     setIsOpenCentralInfo(!isOpenCentralInfo);
@@ -33,10 +40,10 @@ export const Central = () => {
       <div id="top-menu-info">
         <p id="location">
           <i className="fa fa-map-marker" aria-hidden="true"></i>
-          <span>Undefined</span>
+          <span>{currentWeather?.name}</span>
         </p>
         <p id="date">
-          <span>Day, Day Month Year</span>
+          <span>{formatDate(currentWeather?.dt)}</span>
         </p>
       </div>
 
@@ -45,12 +52,19 @@ export const Central = () => {
         className={isOpenCentralInfo ? "weather-menu-show" : ""}
       >
         <div id="icon-temp">
-          <p>Sunny</p>
-          <i className="wi wi-day-cloudy" aria-hidden="true"></i>
+          <p>{currentWeather?.weather[0].main}</p>
+          <i
+            className={`wi ${WEATHER_ID[currentWeather?.weather[0].icon]}`}
+            aria-hidden="true"
+          ></i>
         </div>
         <p id="current-temp-big">
-          <span id="ctb">17</span>
-          <span id="ctbicon">ºC</span>
+          <span id="ctb">
+            {settings.temperatureUnit
+              ? Math.round(currentWeather?.main.temp)
+              : Math.round(convertTemperature(currentWeather?.main.temp))}
+          </span>
+          <span id="ctbicon">{settings.temperatureUnit ? "ºC" : "ºF"}</span>
         </p>
       </div>
 
@@ -64,14 +78,21 @@ export const Central = () => {
         </span>
 
         <ul>
-          {centralMockData.map((central) => (
-            <CentralItem
-              key={central.id}
-              title={central.title}
-              id={central.id}
-              data={central.data}
-            />
-          ))}
+          <CentralItem
+            title="Atmospheric Conditions"
+            id="atmli"
+            data={getAtmosphericConditionsData(currentWeather)}
+          />
+          <CentralItem
+            title="Sunrise/Sunset"
+            id="sunli"
+            data={getSunriseAndSunsetData(currentWeather)}
+          />
+          <CentralItem
+            title="Wind Conditions"
+            id="windli"
+            data={getWindConditionsData(currentWeather)}
+          />
           <li id="forecastli">
             <p className="li_title">9 Days Forecast</p>
             <span className="day_left" onClick={handlerReduceSlide}>
@@ -109,4 +130,4 @@ export const Central = () => {
       </div>
     </div>
   );
-};
+});

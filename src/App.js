@@ -6,7 +6,7 @@ import { SettingButton } from './components/SettingButton';
 import { Central } from './components/Central';
 import {AppContext} from './context/app-provider'
 
-const App = () => {
+const App = React.memo(() => {
   const { isOpenSetting, currentTheme } =
     React.useContext(AppContext);
   return (
@@ -33,6 +33,6 @@ const App = () => {
       </div>
     </div>
   );
-};
+});
 
 export default App;

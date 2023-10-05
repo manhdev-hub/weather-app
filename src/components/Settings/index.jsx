@@ -1,8 +1,11 @@
 import React from "react";
 import { AppContext } from "../../context/app-provider";
 import { SettingItem } from "./setting-item";
+import { debounce } from "lodash";
+import { API_URL, API_KEY, COUNTRIES_CODE } from "../../constants";
+import { getCurrentWeather } from "../../api";
 
-export const Settings = () => {
+export const Settings = React.memo(() => {
   const {
     isOpenSetting,
     themeColor,
@@ -10,17 +13,51 @@ export const Settings = () => {
     setCurrentTheme,
     settings,
     setSettings,
+    setCurrentWeather,
+    setIsOpenSetting
   } = React.useContext(AppContext);
   const handlerChangeThemeColor = (index) => {
     setCurrentTheme(themeColor[index]);
   };
+  const [listCites, setListCites] = React.useState([]);
+  const [isSearchFetching, setSearchFetching] = React.useState(false);
 
   const handlerChangeSettings = (keySetting) => {
     setSettings({
       ...settings,
-      [keySetting]: !settings[keySetting]
-    })
-  }
+      [keySetting]: !settings[keySetting],
+    });
+    return;
+  };
+
+  const handlerSearch = (e) => {
+    setSearchFetching(true);
+    if (e.target.value === "") {
+      setListCites([]);
+      setSearchFetching(false);
+      return;
+    }
+    fetch(
+      `${API_URL}/geo/1.0/direct?q=${e.target.value}&limit=5&appid=${API_KEY}`
+    )
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        setListCites(data);
+        setSearchFetching(false);
+      });
+  };
+
+  const debounceOnchange = debounce(handlerSearch, 300);
+
+  const selectLocation = ({lat, lot}) => {
+    if(lat && lot)
+    getCurrentWeather(setCurrentWeather, lat, lot);
+    setListCites([]);
+    setSearchFetching(false);
+    setIsOpenSetting(false);
+  };
 
   return (
     <div id="settings" className={isOpenSetting ? "show" : ""}>
@@ -33,6 +70,26 @@ export const Settings = () => {
           isOpenSetting ? "search-container slideAnimation" : "search-container"
         }
       >
+        {(listCites.length > 0 || isSearchFetching) && (
+          <ul className="list-city">
+            {isSearchFetching && (
+              <li>
+                <i class="fa fa-map-marker" aria-hidden="true"></i> Loading....
+              </li>
+            )}
+            {listCites.map((city) => (
+              <li
+                key={city.lat}
+                className={currentTheme}
+                onClick={() => selectLocation({ lat: city.lat, lot: city.lon })}
+              >
+                <i class="fa fa-map-marker" aria-hidden="true"></i> {city.name},{" "}
+                {COUNTRIES_CODE[city.country]}
+              </li>
+            ))}
+          </ul>
+        )}
+
         <label>
           <input
             autoComplete="off"
@@ -40,14 +97,16 @@ export const Settings = () => {
             id="search"
             placeholder="Search City..."
             required={false}
+            onChange={debounceOnchange}
           />
+
           <i className="fa fa-search" aria-hidden="true"></i>
           <button type="button" id="update-button" placeholder="Update">
             Update
           </button>
         </label>
       </div>
-      <ul>
+      <ul className="list-settings">
         <SettingItem
           title="Temperature Unit"
           iconLeft={
@@ -113,4 +172,4 @@ export const Settings = () => {
       </button>
     </div>
   );
-};
+});

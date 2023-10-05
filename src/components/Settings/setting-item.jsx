@@ -2,7 +2,7 @@ import React from 'react';
 import { AppContext } from "../../context/app-provider";
 
 
-export const SettingItem = ({title, iconLeft, iconRight, subInfo, defaultSetting = true, onChangeSettings }) => {
+export const SettingItem = React.memo(({title, iconLeft, iconRight, subInfo, defaultSetting = true, onChangeSettings }) => {
     const {isOpenSetting} = React.useContext(AppContext);
   return (
     <li className={isOpenSetting ? "slideAnimation" : ""}>
@@ -23,4 +23,4 @@ export const SettingItem = ({title, iconLeft, iconRight, subInfo, defaultSetting
       <div className="sub-info">{subInfo}</div>
     </li>
   );
-};
+});
