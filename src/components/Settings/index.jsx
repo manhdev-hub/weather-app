@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useCallback, useEffect } from "react";
 import { AppContext } from "../../context/app-provider";
 import { SettingItem } from "./setting-item";
 import { debounce } from "lodash";
 import { API_URL, API_KEY, COUNTRIES_CODE } from "../../constants";
 import { getCurrentWeather } from "../../api";
+import { SpeechRecognitionComponent } from "../SpeedRecognition";
 
 export const Settings = React.memo(() => {
   const {
@@ -14,12 +15,15 @@ export const Settings = React.memo(() => {
     settings,
     setSettings,
     setCurrentWeather,
-    setIsOpenSetting
+    setIsOpenSetting,
+    transcript,
+    setTranscript,
+    listCites,
+    setListCites,
   } = React.useContext(AppContext);
   const handlerChangeThemeColor = (index) => {
     setCurrentTheme(themeColor[index]);
   };
-  const [listCites, setListCites] = React.useState([]);
   const [isSearchFetching, setSearchFetching] = React.useState(false);
 
   const handlerChangeSettings = (keySetting) => {
@@ -31,15 +35,19 @@ export const Settings = React.memo(() => {
   };
 
   const handlerSearch = (e) => {
+    console.log("a", e.target.value);
+    setTranscript(e.target.value);
     setSearchFetching(true);
     if (e.target.value === "") {
       setListCites([]);
       setSearchFetching(false);
       return;
     }
-    fetch(
-      `${API_URL}/geo/1.0/direct?q=${e.target.value}&limit=5&appid=${API_KEY}`
-    )
+    debounceOnchange(e.target.value);
+  };
+
+  const fetchSearch = (keyword) => {
+    fetch(`${API_URL}/geo/1.0/direct?q=${keyword}&limit=5&appid=${API_KEY}`)
       .then((response) => {
         return response.json();
       })
@@ -49,14 +57,28 @@ export const Settings = React.memo(() => {
       });
   };
 
-  const debounceOnchange = debounce(handlerSearch, 300);
+  const debounceOnchange = useCallback(
+    debounce((keyword, time) => fetchSearch(keyword), 400),
+    []
+  );
 
-  const selectLocation = ({lat, lot}) => {
-    if(lat && lot)
-    getCurrentWeather(setCurrentWeather, lat, lot);
+  useEffect(() => {
+    if (transcript === "") return;
+    debounceOnchange(transcript);
+  }, [transcript]);
+
+  useEffect(() => {
+    if (!isOpenSetting) {
+      setTranscript("");
+    }
+  }, [isOpenSetting]);
+
+  const selectLocation = ({ lat, lot }) => {
+    if (lat && lot) getCurrentWeather(setCurrentWeather, lat, lot);
     setListCites([]);
     setSearchFetching(false);
     setIsOpenSetting(false);
+    setTranscript("");
   };
 
   return (
@@ -74,7 +96,8 @@ export const Settings = React.memo(() => {
           <ul className="list-city">
             {isSearchFetching && (
               <li>
-                <i class="fa fa-map-marker" aria-hidden="true"></i> Loading....
+                <i className="fa fa-map-marker" aria-hidden="true"></i>{" "}
+                Loading....
               </li>
             )}
             {listCites.map((city) => (
@@ -83,8 +106,8 @@ export const Settings = React.memo(() => {
                 className={currentTheme}
                 onClick={() => selectLocation({ lat: city.lat, lot: city.lon })}
               >
-                <i class="fa fa-map-marker" aria-hidden="true"></i> {city.name},{" "}
-                {COUNTRIES_CODE[city.country]}
+                <i className="fa fa-map-marker" aria-hidden="true"></i>{" "}
+                {city.name}, {COUNTRIES_CODE[city.country]}
               </li>
             ))}
           </ul>
@@ -97,13 +120,12 @@ export const Settings = React.memo(() => {
             id="search"
             placeholder="Search City..."
             required={false}
-            onChange={debounceOnchange}
+            onChange={handlerSearch}
+            value={transcript}
           />
 
-          <i className="fa fa-search" aria-hidden="true"></i>
-          <button type="button" id="update-button" placeholder="Update">
-            Update
-          </button>
+          <i className="fa fa-search ic-search" aria-hidden="true"></i>
+          <SpeechRecognitionComponent />
         </label>
       </div>
       <ul className="list-settings">

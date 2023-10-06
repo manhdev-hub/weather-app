@@ -78,21 +78,28 @@ export const Central = React.memo(() => {
         </span>
 
         <ul>
-          <CentralItem
-            title="Atmospheric Conditions"
-            id="atmli"
-            data={getAtmosphericConditionsData(currentWeather)}
-          />
-          <CentralItem
-            title="Sunrise/Sunset"
-            id="sunli"
-            data={getSunriseAndSunsetData(currentWeather)}
-          />
-          <CentralItem
-            title="Wind Conditions"
-            id="windli"
-            data={getWindConditionsData(currentWeather)}
-          />
+          {settings.atmospheric && (
+            <CentralItem
+              title="Atmospheric Conditions"
+              id="atmli"
+              data={getAtmosphericConditionsData(currentWeather)}
+            />
+          )}
+          {settings.interval && (
+            <CentralItem
+              title="Sunrise/Sunset"
+              id="sunli"
+              data={getSunriseAndSunsetData(currentWeather)}
+            />
+          )}
+
+          {settings.wind && (
+            <CentralItem
+              title="Wind Conditions"
+              id="windli"
+              data={getWindConditionsData(currentWeather, settings)}
+            />
+          )}
           <li id="forecastli">
             <p className="li_title">9 Days Forecast</p>
             <span className="day_left" onClick={handlerReduceSlide}>

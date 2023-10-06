@@ -9,8 +9,8 @@ export const SettingItem = React.memo(({title, iconLeft, iconRight, subInfo, def
       <div className="text">
         <p>{title}</p>
       </div>
-      <label className="switch" onClick={onChangeSettings}>
-        <input type="checkbox" id="unit" defaultChecked={defaultSetting} />
+      <label className="switch">
+        <input type="checkbox" id="unit" defaultChecked={defaultSetting} onChange={onChangeSettings} />
         <div className="slider">
           <p className="left">
            {iconLeft}

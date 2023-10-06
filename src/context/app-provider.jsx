@@ -10,7 +10,9 @@ const AppProvider = React.memo(({ children }) => {
   const [isOpenCentralInfo, setIsOpenCentralInfo] = useState(false);
   const themeColor = ["green", "turqoise", "blue", "purple"];
   const [currentTheme, setCurrentTheme] = useState(themeColor[0]);
+  const [listCites, setListCites] = useState([]);
   const [cityName, setCityName] = useState('');
+  const [transcript, setTranscript] = useState('');
   const [settings, setSettings] = useState({
     temperatureUnit: true,
     atmospheric: true,
@@ -47,7 +49,11 @@ const AppProvider = React.memo(({ children }) => {
         cityName,
         setCityName,
         SetCoordinates,
-        setCurrentWeather
+        setCurrentWeather,
+        transcript,
+        setTranscript,
+        listCites,
+        setListCites
       }}
     >
       {children}
